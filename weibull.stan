@@ -25,8 +25,8 @@ model{
 	shape ~ gamma(1, 0.001);
 	for(i in 1:N){
 		scale[i] <- exp(-((beta[1] + u[subject[i], 1] + w[item[i], 1]) +
-				 	(beta[2] + u[subject[i], 2] + w[item[i], 2])*cond1[i] + 
-				 	(beta[3] + u[subject[i], 3] + w[item[i], 3])*cond2[i])/shape[i]);
+			         (beta[2] + u[subject[i], 2] + w[item[i], 2])*cond1[i] + 
+				 (beta[3] + u[subject[i], 3] + w[item[i], 3])*cond2[i])/shape[i]);
 	}
 	for(j in 1:NS){
 		u[j, 1] ~ normal(0, sigma_u[1]);
