@@ -1,0 +1,87 @@
+//multiple linear regression
+stan.model1 <- '
+data{
+	int<lower=1> N;
+	int<lower=1> K;
+	vector[N] y;
+	matrix[N, K] x;
+}
+
+parameters{
+	real b0;
+	vector[K] b1;
+	real<lower=0> sigma;
+}
+
+model{
+	y ~ normal(x*b1 + b0, sigma);
+}
+'
+
+//multiple logistic regression
+stan.model2 <- '
+data{
+	int<lower=1> N;
+	int<lower=1> K;
+	matrix[N, K] x;
+	int<lower=0, upper=1> y[N];
+}
+
+parameters{
+	vector[K] b;
+}
+
+model{
+	for( k in 1:K){
+		b[k] ~ normal(0, 10);
+	}
+	y ~ bernoulli_logit(x*b);
+}
+'
+
+//Multiple multinomial logistic regression
+stan.model3 <- '
+data{
+	int<lower=0> N;
+	int<lower=2> K;   //num of categories
+	int<lower=1> D;   //num of predictors without intercept
+	vector[D] x[N];
+	int<lower=1, upper=K> y[N];
+}
+
+transformed data{
+	vector[1] zero;
+	zero[1] <- 0;
+}
+
+parameters{
+	matrix[K-1, D] b;
+	vector[K-1] b0;
+
+}
+
+model{
+	vector[K] lambda;
+	b0 ~ normal(0, 20);
+	lambda[1] <- 0;
+
+	for( n in 1:N){
+		for( k in 2:K)
+			lambda[k] <- b0[k-1] + b[k - 1]*x[n];
+		y[n] ~ categorical_logit(lambda);	
+	}
+}
+'
+
+
+stan.model4 <- '
+data{
+	int<lower=1> N;
+	int<lower=1> D;  //number of predictors
+	int<lower=1> J;  //number of doctors
+	int<lower=1> L;  //Number of predictor levels
+	int<lower=0, upper=1> y[N];
+	int<lower=1, upper=J> Doctor[N];
+	int<lower=0, upper=L> 
+}
+'
