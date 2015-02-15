@@ -72,16 +72,3 @@ model{
 	}
 }
 '
-
-
-stan.model4 <- '
-data{
-	int<lower=1> N;
-	int<lower=1> D;  //number of predictors
-	int<lower=1> J;  //number of doctors
-	int<lower=1> L;  //Number of predictor levels
-	int<lower=0, upper=1> y[N];
-	int<lower=1, upper=J> Doctor[N];
-	int<lower=0, upper=L> 
-}
-'
