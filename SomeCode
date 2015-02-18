@@ -49,10 +49,6 @@ data{
 	int<lower=1, upper=K> y[N];
 }
 
-transformed data{
-	vector[1] zero;
-	zero[1] <- 0;
-}
 
 parameters{
 	matrix[K-1, D] b;
